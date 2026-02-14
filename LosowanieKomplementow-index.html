@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Dla Mojej Kochanej ❤️</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='75' font-size='75'>💖</text></svg>">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Nunito:wght@400;700;800&display=swap');
+
+        :root {
+            --primary-pink: #ff8fab;
+            --dark-pink: #fb6f92;
+            --light-pink: #ffe5ec;
+            --text-color: #4a4a4a;
+        }
+
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            position: fixed;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #ffc3a0 0%, #ffafbd 100%);
+            font-family: 'Nunito', sans-serif;
+            overscroll-behavior: none;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 25px;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            max-width: 90%;
+            width: 480px;
+            z-index: 10;
+            animation: fadeIn 1.5s ease-out;
+            position: relative;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        h1 {
+            font-family: 'Dancing Script', cursive;
+            color: var(--dark-pink);
+            font-size: 3.5rem;
+            margin: 0 0 0.5rem 0;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+            line-height: 1.1;
+        }
+
+        .subtitle {
+            color: #888;
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        /* --- Style dla tekstów --- */
+        .big-text {
+            font-size: 1.5rem;
+            color: var(--text-color);
+            font-weight: 800;
+            line-height: 1.4;
+        }
+
+        #compliment-box {
+            min-height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            width: 100%;
+        }
+
+        /* --- Kontener licznika z tłem --- */
+        #timer-container {
+            background: rgba(255, 255, 255, 0.6); /* Przywrócone białe tło */
+            padding: 1.5rem;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            margin-bottom: 1.5rem;
+            width: 100%;
+            box-sizing: border-box; /* Ważne, żeby padding nie rozpychał szerokości */
+            box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.5);
+        }
+
+        #timer {
+            color: var(--dark-pink);
+            font-variant-numeric: tabular-nums;
+        }
+
+        /* -------------------------- */
+
+        .btn {
+            background-color: var(--dark-pink);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(251, 111, 146, 0.4);
+            font-family: 'Nunito', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+            margin-top: auto;
+        }
+
+        .btn:hover {
+            background-color: var(--primary-pink);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(251, 111, 146, 0.6);
+        }
+
+        .btn:active {
+            transform: translateY(1px);
+        }
+
+        @media (max-width: 600px) {
+            .card {
+                padding: 1.5rem;
+                width: 90%;
+            }
+
+            h1 {
+                font-size: 2.5rem;
+            }
+
+            .big-text {
+                font-size: 1.2rem;
+            }
+
+            #compliment-box {
+                min-height: 70px;
+            }
+
+            #timer-container {
+                padding: 1rem;
+            }
+
+            .btn {
+                padding: 10px 25px;
+                font-size: 1rem;
+            }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .floating-element {
+            position: absolute;
+            bottom: -100px;
+            animation: floatUp linear infinite;
+            opacity: 0.6;
+            z-index: 1;
+            font-size: 40px; 
+            pointer-events: none;
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+            20% { opacity: 0.8; }
+            100% { transform: translateY(-120vh) rotate(360deg); opacity: 0; }
+        }
+
+    </style>
+</head>
+<body>
+
+    <div id="background-container"></div>
+
+    <div class="card">
+        <h1>Cześć Skarbie ❤️</h1>
+        <p class="subtitle">Mam dla Ciebie coś ważnego do powiedzenia:</p>
+        
+        <div id="compliment-box" class="big-text"></div>
+
+        <div id="timer-container">
+            <div id="timer" class="big-text">Obliczam czas...</div>
+        </div>
+
+        <button class="btn" onclick="generateCompliment()">Wylosuj jeszcze raz</button>
+    </div>
+
+    <script>
+        // --- 1. Komplementy ---
+        const compliments = [
+            "Jesteś najpiękniejszą osobą, jaką znam, wewnątrz i na zewnątrz.",
+            "Twój uśmiech sprawia, że każdy mój dzień staje się lepszy.",
+            "Przy Tobie czuję się najszczęśliwszym człowiekiem na świecie.",
+            "Twoja obecność to najlepszy prezent, jaki mogłem dostać od życia.",
+            "Masz w sobie tyle ciepła i dobroci.",
+            "Kocham Twoje oczy, mógłbym patrzeć w nie godzinami.",
+            "Uwielbiam, kiedy się uśmiechasz - wtedy wszystko staje się prostsze.",
+            "Twój śmiech to moja ulubiona melodia.",
+            "Imponuje mi Twoja inteligencja i to, jak patrzysz na świat.",
+            "Jesteś nie tylko piękna, ale też niesamowicie inteligentna.",
+            "Uwielbiam nasze rozmowy, Twoja bystrość mnie zachwyca.",
+            "Podziwiam to, jak radzisz sobie z wyzwaniami.",
+            "Pamiętaj, że zawsze jestem po Twojej stronie.",
+            "Cokolwiek się stanie, zawsze będę Cię wspierać.",
+            "Jesteś silna, ale pamiętaj, że masz we mnie oparcie.",
+            "Jestem Twoim największym fanem, zawsze.",
+            "Nie mogę się doczekać naszej wspólnej przyszłości.",
+            "Budowanie z Tobą życia to moje największe marzenie.",
+            "Planowanie przyszłości ma sens tylko wtedy, gdy Ty w niej jesteś.",
+            "Słuchanie z Tobą muzyki to jedna z moich ulubionych rzeczy.",
+            "Uwielbiam to, jak przeżywasz muzykę.",
+            "Jesteś moją inspiracją każdego dnia.",
+            "Każda chwila z Tobą jest dla mnie wyjątkowa.",
+            "Wyglądasz dziś absolutnie olśniewająco (jak zawsze!).",
+            "Dziękuję, że po prostu jesteś.",
+            "Kocham Cię bardziej niż wczoraj, ale mniej niż jutro.",
+            "Przy Tobie czuję, że mogę być w pełni sobą.",
+            "Wierzę w Ciebie bardziej niż ktokolwiek inny. Nigdy nie trać nadziei!",
+            "Jesteś najsłodszą osobą na całym świecie.",
+            "Gdy jestem przy Tobie, nie jestem w stanie niczym się martwić.",
+            "Mówiłem już, że jesteś słodka? Dla pewności powiem: jesteś najsłodsza.",
+            "Moje ramię zawsze będzie czekać, by dać Ci wytchnienie i otrzeć Twoje łzy.",
+            "Twoje szczęście jest sensem mojego życia.",
+            "Gdy widzę Twój uśmiech, cały świat cichnie.",
+            "Gdy przymierzasz nową kreację, nie mogę oderwać od Ciebie wzroku.",
+            "Uwielbiam poznawać Twój piękny umysł.",
+            "Podziwiam Cię za wiedzę, jaką posiadasz.",
+            "Uwielbiam Cię słuchać, bo zawsze masz coś ciekawego do powiedzenia.",
+            "Moje serce bije w rytm stukania Twoich obcasów."
+        ];
+
+        const complimentBox = document.getElementById('compliment-box');
+
+        function generateCompliment() {
+            complimentBox.style.opacity = 0;
+            setTimeout(() => {
+                const randomIndex = Math.floor(Math.random() * compliments.length);
+                complimentBox.innerText = compliments[randomIndex];
+                complimentBox.style.transition = "opacity 0.5s";
+                complimentBox.style.opacity = 1;
+            }, 200);
+        }
+
+        // --- 2. Licznik czasu (Gramatyka dla "Już od...") ---
+        const startDate = new Date(2025, 11, 8, 10, 0, 0); 
+
+        function updateTimer() {
+            const now = new Date();
+            
+            if (now < startDate) {
+                document.getElementById('timer').innerText = "Odliczamy do 8.12.2025...";
+                return;
+            }
+
+            let years = now.getFullYear() - startDate.getFullYear();
+            let m = now.getMonth() - startDate.getMonth();
+            if (m < 0 || (m === 0 && now.getDate() < startDate.getDate())) {
+                years--;
+            }
+
+            let lastAnniversary = new Date(startDate);
+            lastAnniversary.setFullYear(startDate.getFullYear() + years);
+
+            let diffTime = now - lastAnniversary;
+
+            let days = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+            let hours = Math.floor((diffTime % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            let minutes = Math.floor((diffTime % (1000 * 60 * 60)) / (1000 * 60));
+            let seconds = Math.floor((diffTime % (1000 * 60)) / 1000);
+
+            // Odmiana w dopełniaczu (dla "od ...")
+            // Zasada: 1 -> końcówka pojedyncza (roku, dnia, godziny), >1 -> końcówka mnoga (lat, dni, godzin)
+            
+            const sYears = years === 1 ? 'roku' : 'lat';
+            const sDays = days === 1 ? 'dnia' : 'dni';
+            const sHours = hours === 1 ? 'godziny' : 'godzin';
+            const sMinutes = minutes === 1 ? 'minuty' : 'minut';
+            const sSeconds = seconds === 1 ? 'sekundy' : 'sekund';
+
+            // Budowanie tekstu
+            let timerHtml = `Już od `;
+            
+            if (years > 0) {
+                timerHtml += `${years} ${sYears}, `;
+            }
+            
+            timerHtml += `${days} ${sDays},<br>${hours} ${sHours}, ${minutes} ${sMinutes} i ${seconds} ${sSeconds}`;
+
+            document.getElementById('timer').innerHTML = timerHtml;
+        }
+
+        setInterval(updateTimer, 1000);
+
+        // --- 3. Tło ---
+        function createFloatingBackground() {
+            const container = document.body;
+            const symbols = ['🌸', '🌹', '🌺', '🌷', '🪷', '❤️', '💖', '💕', '💗', '💓', '💞', '💟', '💘', '💝', '💌', '✨', '🎀'];
+            
+            for (let i = 0; i < 25; i++) {
+                const span = document.createElement('span');
+                span.classList.add('floating-element');
+                span.innerText = symbols[Math.floor(Math.random() * symbols.length)];
+                span.style.left = Math.random() * 100 + 'vw';
+                const size = Math.random() * 40 + 40; 
+                span.style.fontSize = size + 'px';
+                const duration = Math.random() * 5 + 5; 
+                span.style.animationDuration = duration + 's';
+                span.style.animationDelay = Math.random() * 5 + 's';
+                container.appendChild(span);
+            }
+        }
+
+        window.onload = function() {
+            generateCompliment();
+            updateTimer();
+            createFloatingBackground();
+        };
+    </script>
+</body>
+</html>
