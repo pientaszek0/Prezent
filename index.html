@@ -4,8 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Dla Mojej Kochanej ❤️</title>
+    
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='75' font-size='75'>💖</text></svg>">
+    
     <style>
+        /* ==========================================================================
+           1. IMPORTY I ZMIENNE
+           ========================================================================== */
         @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Nunito:wght@400;700;800&display=swap');
 
         :root {
@@ -15,13 +20,16 @@
             --text-color: #4a4a4a;
         }
 
+        /* ==========================================================================
+           2. STYLE GLOBALNE (BODY I HTML)
+           ========================================================================== */
         html, body {
             margin: 0;
             padding: 0;
             width: 100%;
             height: 100%;
-            overflow: hidden;
-            position: fixed;
+            overflow: hidden; /* Zapobiega pojawianiu się pasków przewijania */
+            position: fixed;  /* Blokuje "gumkowanie" tła na urządzeniach mobilnych */
             display: flex;
             justify-content: center;
             align-items: center;
@@ -30,6 +38,9 @@
             overscroll-behavior: none;
         }
 
+        /* ==========================================================================
+           3. GŁÓWNY KONTENER (EFEKT SZKŁA)
+           ========================================================================== */
         .card {
             background: rgba(255, 255, 255, 0.85);
             backdrop-filter: blur(10px);
@@ -51,6 +62,9 @@
             align-items: center;
         }
 
+        /* ==========================================================================
+           4. TYPOGRAFIA (NAGŁÓWKI I TEKSTY)
+           ========================================================================== */
         h1 {
             font-family: 'Dancing Script', cursive;
             color: var(--dark-pink);
@@ -66,7 +80,6 @@
             margin-bottom: 1.5rem;
         }
 
-        /* --- Style dla tekstów --- */
         .big-text {
             font-size: 1.5rem;
             color: var(--text-color);
@@ -74,6 +87,7 @@
             line-height: 1.4;
         }
 
+        /* Pole z losowanym komplementem */
         #compliment-box {
             min-height: 80px;
             display: flex;
@@ -83,7 +97,9 @@
             width: 100%;
         }
 
-        /* --- Kontener licznika z tłem --- */
+        /* ==========================================================================
+           5. LICZNIK CZASU
+           ========================================================================== */
         #timer-container {
             background: rgba(255, 255, 255, 0.6); 
             padding: 1.5rem;
@@ -97,10 +113,12 @@
 
         #timer {
             color: var(--dark-pink);
-            font-variant-numeric: tabular-nums;
+            font-variant-numeric: tabular-nums; /* Zapobiega skakaniu cyfr o różnej szerokości */
         }
-        
-        /* Kontener na przyciski układający je w kolumnę */
+
+        /* ==========================================================================
+           6. PRZYCISKI
+           ========================================================================== */
         .buttons-container {
             display: flex;
             flex-direction: column; 
@@ -111,7 +129,7 @@
             width: 100%;
         }
 
-        /* Główny przycisk */
+        /* Główny przycisk - Losowanie */
         .btn {
             background-color: var(--dark-pink);
             color: white;
@@ -140,6 +158,7 @@
             transform: translateY(1px);
         }
 
+        /* Poboczny przycisk - Przejście do prezentu (Ghost Button) */
         .btn-secondary {
             background-color: transparent;
             color: var(--dark-pink);
@@ -156,27 +175,19 @@
             box-shadow: 0 4px 10px rgba(251, 111, 146, 0.2);
         }
 
+        /* ==========================================================================
+           7. RESPONSYWNOŚĆ (TELEFONY)
+           ========================================================================== */
         @media (max-width: 600px) {
             .card {
                 padding: 1.5rem;
                 width: 90%;
             }
 
-            h1 {
-                font-size: 2.5rem;
-            }
-
-            .big-text {
-                font-size: 1.2rem;
-            }
-
-            #compliment-box {
-                min-height: 70px;
-            }
-
-            #timer-container {
-                padding: 1rem;
-            }
+            h1 { font-size: 2.5rem; }
+            .big-text { font-size: 1.2rem; }
+            #compliment-box { min-height: 70px; }
+            #timer-container { padding: 1rem; }
 
             .btn {
                 width: 100%; 
@@ -191,6 +202,9 @@
             }
         }
 
+        /* ==========================================================================
+           8. ANIMACJE I TŁO
+           ========================================================================== */
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
@@ -203,7 +217,7 @@
             opacity: 0.6;
             z-index: 1;
             font-size: 40px; 
-            pointer-events: none;
+            pointer-events: none; /* Zapobiega blokowaniu kliknięć w przyciski */
         }
 
         @keyframes floatUp {
@@ -211,7 +225,6 @@
             20% { opacity: 0.8; }
             100% { transform: translateY(-120vh) rotate(360deg); opacity: 0; }
         }
-
     </style>
 </head>
 <body>
@@ -229,14 +242,18 @@
         </div>
 
         <div class="buttons-container">
-            <button class="btn" onclick="generateCompliment()">Wylosuj jeszcze raz</button>
-            
+            <button class="btn" onclick="generateCompliment(true)">Wylosuj jeszcze raz</button>
             <a href="walentynki-index.html" class="btn btn-secondary">Prezent walentynkowy</a>
         </div>
     </div>
 
     <script>
-        // --- 1. Komplementy ---
+        // Flaga sprawdzająca, czy to pierwsze załadowanie strony (zapobiega podwójnemu pingowaniu komplementu)
+        let isFirstLoad = true; 
+
+        /* ==========================================================================
+           SKRYPT 1: OBSŁUGA KOMPLEMENTÓW
+           ========================================================================== */
         const compliments = [
             "Jesteś najpiękniejszą osobą, jaką znam, wewnątrz i na zewnątrz.",
             "Twój uśmiech sprawia, że każdy mój dzień staje się lepszy.",
@@ -281,18 +298,29 @@
 
         const complimentBox = document.getElementById('compliment-box');
 
-        function generateCompliment() {
+        // Funkcja losująca i podmieniająca komplement (z efektem przejścia)
+        function generateCompliment(isButtonClick = false) {
             complimentBox.style.opacity = 0;
+            
             setTimeout(() => {
                 const randomIndex = Math.floor(Math.random() * compliments.length);
-                complimentBox.innerText = compliments[randomIndex];
+                const drawnCompliment = compliments[randomIndex];
+                
+                complimentBox.innerText = drawnCompliment;
                 complimentBox.style.transition = "opacity 0.5s";
                 complimentBox.style.opacity = 1;
+
+                // Pingujemy Discorda tylko wtedy, gdy akcja pochodzi z kliknięcia przycisku
+                if (isButtonClick && !isFirstLoad) {
+                    sendCustomPing(`✨ Wylosowała: *"${drawnCompliment}"*`);
+                }
             }, 200);
         }
 
-        // --- 2. Licznik czasu ---
-        const startDate = new Date(2025, 11, 8, 10, 0, 0); 
+        /* ==========================================================================
+           SKRYPT 2: OBSŁUGA LICZNIKA CZASU
+           ========================================================================== */
+        const startDate = new Date(2025, 11, 8, 10, 0, 0); // Miesiące są indeksowane od 0 (11 = grudzień)
 
         function updateTimer() {
             const now = new Date();
@@ -302,6 +330,7 @@
                 return;
             }
 
+            // Matematyka obliczająca różnicę czasu
             let years = now.getFullYear() - startDate.getFullYear();
             let m = now.getMonth() - startDate.getMonth();
             if (m < 0 || (m === 0 && now.getDate() < startDate.getDate())) {
@@ -312,34 +341,34 @@
             lastAnniversary.setFullYear(startDate.getFullYear() + years);
 
             let diffTime = now - lastAnniversary;
-
             let days = Math.floor(diffTime / (1000 * 60 * 60 * 24));
             let hours = Math.floor((diffTime % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
             let minutes = Math.floor((diffTime % (1000 * 60 * 60)) / (1000 * 60));
             let seconds = Math.floor((diffTime % (1000 * 60)) / 1000);
 
-            // Odmiana w dopełniaczu (dla "od ...")
+            // Odmiana gramatyczna w dopełniaczu (dla formatu "od...")
             const sYears = years === 1 ? 'roku' : 'lat';
             const sDays = days === 1 ? 'dnia' : 'dni';
             const sHours = hours === 1 ? 'godziny' : 'godzin';
             const sMinutes = minutes === 1 ? 'minuty' : 'minut';
             const sSeconds = seconds === 1 ? 'sekundy' : 'sekund';
 
-            // Budowanie tekstu
+            // Składanie docelowego tekstu
             let timerHtml = `Już od `;
-            
             if (years > 0) {
                 timerHtml += `${years} ${sYears}, `;
             }
-            
             timerHtml += `${days} ${sDays},<br>${hours} ${sHours}, ${minutes} ${sMinutes} i ${seconds} ${sSeconds}`;
 
             document.getElementById('timer').innerHTML = timerHtml;
         }
 
+        // Uruchamianie odliczania co 1 sekundę
         setInterval(updateTimer, 1000);
 
-        // --- 3. Tło ---
+        /* ==========================================================================
+           SKRYPT 3: GENEROWANIE ANIMOWANEGO TŁA
+           ========================================================================== */
         function createFloatingBackground() {
             const container = document.body;
             const symbols = ['🌸', '🌹', '🌺', '🌷', '🪷', '❤️', '💖', '💕', '💗', '💓', '💞', '💟', '💘', '💝', '💌', '✨', '🎀'];
@@ -347,21 +376,56 @@
             for (let i = 0; i < 25; i++) {
                 const span = document.createElement('span');
                 span.classList.add('floating-element');
+                
+                // Losowanie parametrów animacji
                 span.innerText = symbols[Math.floor(Math.random() * symbols.length)];
                 span.style.left = Math.random() * 100 + 'vw';
-                const size = Math.random() * 40 + 40; 
-                span.style.fontSize = size + 'px';
-                const duration = Math.random() * 5 + 5; 
-                span.style.animationDuration = duration + 's';
-                span.style.animationDelay = Math.random() * 5 + 's';
+                span.style.fontSize = (Math.random() * 40 + 40) + 'px';
+                span.style.animationDuration = (Math.random() * 5 + 5) + 's';
+                span.style.animationDelay = (Math.random() * 5 + 5) + 's';
+                
                 container.appendChild(span);
             }
         }
 
+        /* ==========================================================================
+           SKRYPT 4: WEBHOOKI DISCORD (POWIADOMIENIA)
+           ========================================================================== */
+        
+        // Powiadomienie główne o wejściu na stronę
+        function sendPagePing(pageName) {
+            const webhookUrl = "https://discord.com/api/webhooks/1474354056335069228/XsMlbhGJvC725Q6hfz5Te2kaViBXuGWqNzu1C5pnkH7FSTW4k1HElYkJGDlErKahhivQ"; 
+            const now = new Date().toLocaleString("pl-PL");
+
+            const formData = new FormData();
+            formData.append("content", `💖 Skarb właśnie otworzył stronę: **${pageName}**! (Czas: ${now})`);
+
+            fetch(webhookUrl, { method: "POST", body: formData }).catch(() => {});
+        }
+
+        // Powiadomienie dodatkowe (używane do losowania komplementów)
+        function sendCustomPing(message) {
+            const webhookUrl = "https://discord.com/api/webhooks/1474354056335069228/XsMlbhGJvC725Q6hfz5Te2kaViBXuGWqNzu1C5pnkH7FSTW4k1HElYkJGDlErKahhivQ"; 
+            
+            const formData = new FormData();
+            formData.append("content", message);
+
+            fetch(webhookUrl, { method: "POST", body: formData }).catch(() => {});
+        }
+
+        /* ==========================================================================
+           INICJALIZACJA STRONY
+           ========================================================================== */
         window.onload = function() {
             generateCompliment();
             updateTimer();
             createFloatingBackground();
+            
+            // Wysłanie pingu na Discorda
+            sendPagePing("Komplementy"); 
+
+            // Ustawienie flagi po krótkim opóźnieniu (chroni przed podwójnym pingiem przy załadowaniu)
+            setTimeout(() => { isFirstLoad = false; }, 500);
         };
     </script>
 </body>

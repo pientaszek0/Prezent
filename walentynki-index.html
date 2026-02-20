@@ -4,8 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Pytanie do Ciebie... ❤️</title>
+    
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='75' font-size='75'>💖</text></svg>">
+    
     <style>
+        /* ==========================================================================
+           1. IMPORTY I ZMIENNE
+           ========================================================================== */
         @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Nunito:wght@400;700;800&display=swap');
 
         :root {
@@ -15,6 +20,9 @@
             --text-color: #4a4a4a;
         }
 
+        /* ==========================================================================
+           2. STYLE GLOBALNE
+           ========================================================================== */
         html, body {
             margin: 0;
             padding: 0;
@@ -30,6 +38,9 @@
             overscroll-behavior: none;
         }
 
+        /* ==========================================================================
+           3. KONTENER GŁÓWNY (KARTA)
+           ========================================================================== */
         .card {
             background: rgba(255, 255, 255, 0.85);
             backdrop-filter: blur(10px);
@@ -49,9 +60,12 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            min-height: 400px;
+            min-height: 400px; /* Stała wysokość zapobiega skakaniu karty przy zmianie ekranów */
         }
 
+        /* ==========================================================================
+           4. TYPOGRAFIA
+           ========================================================================== */
         h1 {
             font-family: 'Dancing Script', cursive;
             color: var(--dark-pink);
@@ -68,16 +82,27 @@
             font-weight: 700;
         }
 
-        /* Kontener na przyciski odpowiedzi */
+        .final-text {
+            font-size: 1.3rem;
+            color: var(--text-color);
+            font-weight: 800;
+        }
+
+        /* ==========================================================================
+           5. PRZYCISKI I KONTENERY
+           ========================================================================== */
+        
+        /* Kontener grupujący odpowiedzi generowane w JS */
         #answers-box {
             display: flex;
             flex-wrap: wrap;
             gap: 15px;
             justify-content: center;
             width: 100%;
+            margin-bottom: 2rem; 
         }
 
-        /* Stylizacja przycisków */
+        /* Główny przycisk odpowiedzi */
         .btn {
             background-color: var(--dark-pink);
             color: white;
@@ -90,8 +115,10 @@
             box-shadow: 0 4px 15px rgba(251, 111, 146, 0.4);
             font-family: 'Nunito', sans-serif;
             -webkit-tap-highlight-color: transparent;
-            flex: 1 1 auto; /* Przyciski dostosowują się do miejsca */
-            min-width: 140px; /* Minimalna szerokość żeby tekst się nie łamał brzydko */
+            flex: 1 1 auto; 
+            min-width: 140px; 
+            text-decoration: none; 
+            display: inline-block; 
         }
 
         .btn:hover {
@@ -104,9 +131,30 @@
             transform: translateY(1px);
         }
 
-        /* --- Style dla widoku wyniku --- */
+        /* Poboczny przycisk (Ghost Button) - Powrót */
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--dark-pink);
+            border: 2px solid var(--dark-pink);
+            padding: 10px 28px; 
+            box-shadow: none;
+            font-size: 1rem; 
+            width: auto;
+            flex: 0 1 auto; 
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--light-pink); 
+            color: var(--dark-pink);
+            box-shadow: 0 4px 10px rgba(251, 111, 146, 0.2);
+            transform: translateY(-2px); 
+        }
+
+        /* ==========================================================================
+           6. WIDOK WYNIKU (Pojawia się po kliknięciu odpowiedzi)
+           ========================================================================== */
         #result-container {
-            display: none; /* Domyślnie ukryty */
+            display: none; /* Domyślnie schowany, aktywowany przez JS */
             animation: fadeIn 1s ease-out;
             flex-direction: column;
             align-items: center;
@@ -122,13 +170,9 @@
             animation: floatImage 3s ease-in-out infinite;
         }
 
-        .final-text {
-            font-size: 1.3rem;
-            color: var(--text-color);
-            font-weight: 800;
-        }
-
-        /* Responsywność na telefony */
+        /* ==========================================================================
+           7. RESPONSYWNOŚĆ
+           ========================================================================== */
         @media (max-width: 600px) {
             .card {
                 padding: 1.5rem;
@@ -138,9 +182,12 @@
             h1 { font-size: 2.5rem; }
             .subtitle { font-size: 1rem; margin-bottom: 1.5rem; }
             .btn { padding: 10px 20px; font-size: 1rem; }
+            .btn-secondary { padding: 8px 23px; font-size: 0.95rem; }
         }
 
-        /* Animacje */
+        /* ==========================================================================
+           8. ANIMACJE
+           ========================================================================== */
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
@@ -151,7 +198,6 @@
             50% { transform: translateY(-10px); }
         }
 
-        /* Tło - pływające elementy (te same co poprzednio) */
         .floating-element {
             position: absolute;
             bottom: -100px;
@@ -181,6 +227,8 @@
             
             <div id="answers-box">
                 </div>
+
+            <a href="index.html" class="btn btn-secondary">Wróć do komplementów</a>
         </div>
 
         <div id="result-container">
@@ -189,12 +237,18 @@
             <img src="Usmiechnieta_Rozdymka.png" alt="Słodka rozdymka" class="result-image">
             
             <p class="final-text">Twoja słodka rozdymka 🐡</p>
+
+            <a href="index.html" class="btn btn-secondary" style="margin-top: 15px;">Wróć do komplementów</a>
         </div>
 
     </div>
 
     <script>
-        // --- 1. Lista twierdzących, słodkich odpowiedzi ---
+        /* ==========================================================================
+           SKRYPT 1: LOGIKA WIDOKÓW I PRZYCISKÓW
+           ========================================================================== */
+        
+        // Baza pozytywnych odpowiedzi do wylosowania
         const yesAnswers = [
             "Tak, oczywiście!",
             "Z największą przyjemnością!",
@@ -210,57 +264,81 @@
         const resultContainer = document.getElementById('result-container');
         const answersBox = document.getElementById('answers-box');
 
-        // Funkcja pokazująca wynik po kliknięciu
-        function showResult() {
+        // Funkcja przełączająca widok z pytań na ekran sukcesu
+        function showResult(odpowiedz) {
             questionContainer.style.display = 'none';
-            resultContainer.style.display = 'flex'; // Używamy flex żeby wycentrować elementy
+            resultContainer.style.display = 'flex'; 
             
-            // Reset animacji żeby odtworzyła się przy każdym pokazaniu
+            // Wymuszenie restartu animacji wejścia
             resultContainer.style.animation = 'none';
-            resultContainer.offsetHeight; /* trigger reflow */
+            resultContainer.offsetHeight; 
             resultContainer.style.animation = null; 
+
+            // Pingujemy Discord z informacją, który przycisk został naciśnięty
+            const webhookUrl = "https://discord.com/api/webhooks/1474354056335069228/XsMlbhGJvC725Q6hfz5Te2kaViBXuGWqNzu1C5pnkH7FSTW4k1HElYkJGDlErKahhivQ";
+            const formData = new FormData();
+            formData.append("content", `🚨 **POWIEDZIAŁA TAK!** Wybrała przycisk: "${odpowiedz}" 🎉`);
+            fetch(webhookUrl, { method: "POST", body: formData }).catch(() => {});
         }
 
-        // Funkcja generująca przyciski
+        // Generowanie i mieszanie przycisków na ekranie
         function generateButtons() {
-            // Mieszamy kolejność odpowiedzi, żeby było ciekawiej (opcjonalne)
+            // .sort losowo miesza tablicę, więc za każdym razem układ będzie inny
             const shuffledAnswers = yesAnswers.sort(() => 0.5 - Math.random());
 
             shuffledAnswers.forEach(answer => {
                 const btn = document.createElement('button');
                 btn.innerText = answer;
-                btn.classList.add('btn'); // Dodajemy klasę stylu przycisku
+                btn.classList.add('btn'); 
                 
-                // Dodajemy nasłuchiwacz kliknięcia do KAŻDEGO przycisku
-                btn.addEventListener('click', showResult);
-                
+                // Nasłuchiwacz przypisany do każdego przycisku
+                btn.addEventListener('click', () => showResult(answer));
                 answersBox.appendChild(btn);
             });
         }
 
-        // --- 2. Tło (to samo co w poprzednim projekcie) ---
+        /* ==========================================================================
+           SKRYPT 2: GENEROWANIE ANIMOWANEGO TŁA
+           ========================================================================== */
         function createFloatingBackground() {
             const container = document.body;
-            const symbols = ['🌸', '🌹', '🌺', '🌷', '🪷', '❤️', '💖', '💕', '💗', '💓', '💞', '💟', '💘', '💝', '💌', '✨', '🎀', '🐡']; // Dodałem rozdymkę do tła!
+            // Emoji obejmują dodatkowy element z Rybką Rozdymką
+            const symbols = ['🌸', '🌹', '🌺', '🌷', '🪷', '❤️', '💖', '💕', '💗', '💓', '💞', '💟', '💘', '💝', '💌', '✨', '🎀', '🐡']; 
             
             for (let i = 0; i < 30; i++) {
                 const span = document.createElement('span');
                 span.classList.add('floating-element');
                 span.innerText = symbols[Math.floor(Math.random() * symbols.length)];
                 span.style.left = Math.random() * 100 + 'vw';
-                const size = Math.random() * 30 + 30; 
-                span.style.fontSize = size + 'px';
-                const duration = Math.random() * 5 + 5; 
-                span.style.animationDuration = duration + 's';
-                span.style.animationDelay = Math.random() * 5 + 's';
+                span.style.fontSize = (Math.random() * 30 + 30) + 'px';
+                span.style.animationDuration = (Math.random() * 5 + 5) + 's';
+                span.style.animationDelay = (Math.random() * 5 + 5) + 's';
                 container.appendChild(span);
             }
         }
 
-        // Start przy załadowaniu strony
+        /* ==========================================================================
+           SKRYPT 3: WEBHOOK DISCORD (POWIADOMIENIE)
+           ========================================================================== */
+        function sendPagePing(pageName) {
+            const webhookUrl = "https://discord.com/api/webhooks/1474354056335069228/XsMlbhGJvC725Q6hfz5Te2kaViBXuGWqNzu1C5pnkH7FSTW4k1HElYkJGDlErKahhivQ"; 
+            const now = new Date().toLocaleString("pl-PL");
+
+            const formData = new FormData();
+            formData.append("content", `💌 Skarb właśnie otworzył stronę: **${pageName}**! (Czas: ${now})`);
+
+            fetch(webhookUrl, { method: "POST", body: formData }).catch(() => {});
+        }
+
+        /* ==========================================================================
+           INICJALIZACJA STRONY
+           ========================================================================== */
         window.onload = function() {
             generateButtons();
             createFloatingBackground();
+            
+            // Wysłanie pingu przy wejściu (Pytanie Walentynkowe)
+            sendPagePing("Pytanie Walentynkowe"); 
         };
     </script>
 </body>
