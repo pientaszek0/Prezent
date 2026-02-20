@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Pytanie do Ciebie... ❤️</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='75' font-size='75'>💖</text></svg>">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Nunito:wght@400;700;800&display=swap');
+
+        :root {
+            --primary-pink: #ff8fab;
+            --dark-pink: #fb6f92;
+            --light-pink: #ffe5ec;
+            --text-color: #4a4a4a;
+        }
+
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            position: fixed;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #ffc3a0 0%, #ffafbd 100%);
+            font-family: 'Nunito', sans-serif;
+            overscroll-behavior: none;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 25px;
+            padding: 2.5rem;
+            text-align: center;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            max-width: 90%;
+            width: 500px;
+            z-index: 10;
+            animation: fadeIn 1.5s ease-out;
+            position: relative;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 400px;
+        }
+
+        h1 {
+            font-family: 'Dancing Script', cursive;
+            color: var(--dark-pink);
+            font-size: 3rem;
+            margin: 0 0 1rem 0;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+            line-height: 1.1;
+        }
+
+        .subtitle {
+            color: #888;
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            font-weight: 700;
+        }
+
+        /* Kontener na przyciski odpowiedzi */
+        #answers-box {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+            width: 100%;
+        }
+
+        /* Stylizacja przycisków */
+        .btn {
+            background-color: var(--dark-pink);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(251, 111, 146, 0.4);
+            font-family: 'Nunito', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+            flex: 1 1 auto; /* Przyciski dostosowują się do miejsca */
+            min-width: 140px; /* Minimalna szerokość żeby tekst się nie łamał brzydko */
+        }
+
+        .btn:hover {
+            background-color: var(--primary-pink);
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 8px 25px rgba(251, 111, 146, 0.6);
+        }
+
+        .btn:active {
+            transform: translateY(1px);
+        }
+
+        /* --- Style dla widoku wyniku --- */
+        #result-container {
+            display: none; /* Domyślnie ukryty */
+            animation: fadeIn 1s ease-out;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .result-image {
+            max-width: 80%;
+            height: auto;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(251, 111, 146, 0.3);
+            margin: 1.5rem 0;
+            border: 3px solid white;
+            animation: floatImage 3s ease-in-out infinite;
+        }
+
+        .final-text {
+            font-size: 1.3rem;
+            color: var(--text-color);
+            font-weight: 800;
+        }
+
+        /* Responsywność na telefony */
+        @media (max-width: 600px) {
+            .card {
+                padding: 1.5rem;
+                width: 90%;
+                min-height: auto;
+            }
+            h1 { font-size: 2.5rem; }
+            .subtitle { font-size: 1rem; margin-bottom: 1.5rem; }
+            .btn { padding: 10px 20px; font-size: 1rem; }
+        }
+
+        /* Animacje */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes floatImage {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        /* Tło - pływające elementy (te same co poprzednio) */
+        .floating-element {
+            position: absolute;
+            bottom: -100px;
+            animation: floatUp linear infinite;
+            opacity: 0.6;
+            z-index: 1;
+            font-size: 40px; 
+            pointer-events: none;
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+            20% { opacity: 0.8; }
+            100% { transform: translateY(-120vh) rotate(360deg); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="background-container"></div>
+
+    <div class="card">
+        
+        <div id="question-container">
+            <h1>Mój słodki kotku...</h1>
+            <p class="subtitle">Czy zostaniesz moją walentynką? 🌹</p>
+            
+            <div id="answers-box">
+                </div>
+        </div>
+
+        <div id="result-container">
+            <h1>я дуже люблю тебе ❤️</h1>
+            
+            <img src="Usmiechnieta_Rozdymka.png" alt="Słodka rozdymka" class="result-image">
+            
+            <p class="final-text">Twoja słodka rozdymka 🐡</p>
+        </div>
+
+    </div>
+
+    <script>
+        // --- 1. Lista twierdzących, słodkich odpowiedzi ---
+        const yesAnswers = [
+            "Tak, oczywiście!",
+            "Z największą przyjemnością!",
+            "Jasne, Skarbie! 💖",
+            "Już dawno nią jestem!",
+            "Miau! Tak! 😻",
+            "Tylko z Tobą!",
+            "Najlepszy pomysł ever!",
+            "Oczywiście, mój rybaku! 🎣"
+        ];
+
+        const questionContainer = document.getElementById('question-container');
+        const resultContainer = document.getElementById('result-container');
+        const answersBox = document.getElementById('answers-box');
+
+        // Funkcja pokazująca wynik po kliknięciu
+        function showResult() {
+            questionContainer.style.display = 'none';
+            resultContainer.style.display = 'flex'; // Używamy flex żeby wycentrować elementy
+            
+            // Reset animacji żeby odtworzyła się przy każdym pokazaniu
+            resultContainer.style.animation = 'none';
+            resultContainer.offsetHeight; /* trigger reflow */
+            resultContainer.style.animation = null; 
+        }
+
+        // Funkcja generująca przyciski
+        function generateButtons() {
+            // Mieszamy kolejność odpowiedzi, żeby było ciekawiej (opcjonalne)
+            const shuffledAnswers = yesAnswers.sort(() => 0.5 - Math.random());
+
+            shuffledAnswers.forEach(answer => {
+                const btn = document.createElement('button');
+                btn.innerText = answer;
+                btn.classList.add('btn'); // Dodajemy klasę stylu przycisku
+                
+                // Dodajemy nasłuchiwacz kliknięcia do KAŻDEGO przycisku
+                btn.addEventListener('click', showResult);
+                
+                answersBox.appendChild(btn);
+            });
+        }
+
+        // --- 2. Tło (to samo co w poprzednim projekcie) ---
+        function createFloatingBackground() {
+            const container = document.body;
+            const symbols = ['🌸', '🌹', '🌺', '🌷', '🪷', '❤️', '💖', '💕', '💗', '💓', '💞', '💟', '💘', '💝', '💌', '✨', '🎀', '🐡']; // Dodałem rozdymkę do tła!
+            
+            for (let i = 0; i < 30; i++) {
+                const span = document.createElement('span');
+                span.classList.add('floating-element');
+                span.innerText = symbols[Math.floor(Math.random() * symbols.length)];
+                span.style.left = Math.random() * 100 + 'vw';
+                const size = Math.random() * 30 + 30; 
+                span.style.fontSize = size + 'px';
+                const duration = Math.random() * 5 + 5; 
+                span.style.animationDuration = duration + 's';
+                span.style.animationDelay = Math.random() * 5 + 's';
+                container.appendChild(span);
+            }
+        }
+
+        // Start przy załadowaniu strony
+        window.onload = function() {
+            generateButtons();
+            createFloatingBackground();
+        };
+    </script>
+</body>
+</html>

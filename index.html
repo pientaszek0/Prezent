@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Pytanie do Ciebie... ❤️</title>
+    <title>Dla Mojej Kochanej ❤️</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='75' font-size='75'>💖</text></svg>">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Nunito:wght@400;700;800&display=swap');
@@ -35,12 +35,12 @@
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
             border-radius: 25px;
-            padding: 2.5rem;
+            padding: 2rem;
             text-align: center;
             box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
             border: 1px solid rgba(255, 255, 255, 0.5);
             max-width: 90%;
-            width: 500px;
+            width: 480px;
             z-index: 10;
             animation: fadeIn 1.5s ease-out;
             position: relative;
@@ -49,40 +49,74 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            min-height: 400px;
         }
 
         h1 {
             font-family: 'Dancing Script', cursive;
             color: var(--dark-pink);
-            font-size: 3rem;
-            margin: 0 0 1rem 0;
+            font-size: 3.5rem;
+            margin: 0 0 0.5rem 0;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
             line-height: 1.1;
         }
 
         .subtitle {
             color: #888;
-            font-size: 1.2rem;
-            margin-bottom: 2rem;
-            font-weight: 700;
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
         }
 
-        /* Kontener na przyciski odpowiedzi */
-        #answers-box {
+        /* --- Style dla tekstów --- */
+        .big-text {
+            font-size: 1.5rem;
+            color: var(--text-color);
+            font-weight: 800;
+            line-height: 1.4;
+        }
+
+        #compliment-box {
+            min-height: 80px;
             display: flex;
-            flex-wrap: wrap;
-            gap: 15px;
+            align-items: center;
             justify-content: center;
+            margin-bottom: 1.5rem;
             width: 100%;
         }
 
-        /* Stylizacja przycisków */
+        /* --- Kontener licznika z tłem --- */
+        #timer-container {
+            background: rgba(255, 255, 255, 0.6); 
+            padding: 1.5rem;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            margin-bottom: 1.5rem;
+            width: 100%;
+            box-sizing: border-box; 
+            box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.5);
+        }
+
+        #timer {
+            color: var(--dark-pink);
+            font-variant-numeric: tabular-nums;
+        }
+        
+        /* Kontener na przyciski układający je w kolumnę */
+        .buttons-container {
+            display: flex;
+            flex-direction: column; 
+            gap: 12px;
+            justify-content: center;
+            align-items: center;
+            margin-top: auto;
+            width: 100%;
+        }
+
+        /* Główny przycisk */
         .btn {
             background-color: var(--dark-pink);
             color: white;
             border: none;
-            padding: 12px 25px;
+            padding: 12px 30px;
             border-radius: 50px;
             font-size: 1.1rem;
             cursor: pointer;
@@ -90,68 +124,78 @@
             box-shadow: 0 4px 15px rgba(251, 111, 146, 0.4);
             font-family: 'Nunito', sans-serif;
             -webkit-tap-highlight-color: transparent;
-            flex: 1 1 auto; /* Przyciski dostosowują się do miejsca */
-            min-width: 140px; /* Minimalna szerokość żeby tekst się nie łamał brzydko */
+            text-decoration: none; 
+            display: inline-block;
+            width: 80%; 
+            max-width: 300px;
         }
 
         .btn:hover {
             background-color: var(--primary-pink);
-            transform: translateY(-3px) scale(1.02);
-            box-shadow: 0 8px 25px rgba(251, 111, 146, 0.6);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(251, 111, 146, 0.6);
         }
 
         .btn:active {
             transform: translateY(1px);
         }
 
-        /* --- Style dla widoku wyniku --- */
-        #result-container {
-            display: none; /* Domyślnie ukryty */
-            animation: fadeIn 1s ease-out;
-            flex-direction: column;
-            align-items: center;
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--dark-pink);
+            border: 2px solid var(--dark-pink);
+            padding: 10px 28px; 
+            box-shadow: none;
+            font-size: 1rem; 
+            width: auto;
         }
 
-        .result-image {
-            max-width: 80%;
-            height: auto;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(251, 111, 146, 0.3);
-            margin: 1.5rem 0;
-            border: 3px solid white;
-            animation: floatImage 3s ease-in-out infinite;
+        .btn-secondary:hover {
+            background-color: var(--light-pink); 
+            color: var(--dark-pink);
+            box-shadow: 0 4px 10px rgba(251, 111, 146, 0.2);
         }
 
-        .final-text {
-            font-size: 1.3rem;
-            color: var(--text-color);
-            font-weight: 800;
-        }
-
-        /* Responsywność na telefony */
         @media (max-width: 600px) {
             .card {
                 padding: 1.5rem;
                 width: 90%;
-                min-height: auto;
             }
-            h1 { font-size: 2.5rem; }
-            .subtitle { font-size: 1rem; margin-bottom: 1.5rem; }
-            .btn { padding: 10px 20px; font-size: 1rem; }
+
+            h1 {
+                font-size: 2.5rem;
+            }
+
+            .big-text {
+                font-size: 1.2rem;
+            }
+
+            #compliment-box {
+                min-height: 70px;
+            }
+
+            #timer-container {
+                padding: 1rem;
+            }
+
+            .btn {
+                width: 100%; 
+                padding: 10px 25px;
+                font-size: 1rem;
+            }
+
+            .btn-secondary {
+                padding: 8px 23px;
+                font-size: 0.95rem;
+                width: auto;
+            }
         }
 
-        /* Animacje */
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
-        
-        @keyframes floatImage {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-        }
 
-        /* Tło - pływające elementy (te same co poprzednio) */
         .floating-element {
             position: absolute;
             bottom: -100px;
@@ -167,6 +211,7 @@
             20% { opacity: 0.8; }
             100% { transform: translateY(-120vh) rotate(360deg); opacity: 0; }
         }
+
     </style>
 </head>
 <body>
@@ -174,81 +219,137 @@
     <div id="background-container"></div>
 
     <div class="card">
+        <h1>Cześć Skarbie ❤️</h1>
+        <p class="subtitle">Mam dla Ciebie coś ważnego do powiedzenia:</p>
         
-        <div id="question-container">
-            <h1>Mój słodki kotku...</h1>
-            <p class="subtitle">Czy zostaniesz moją walentynką? 🌹</p>
-            
-            <div id="answers-box">
-                </div>
+        <div id="compliment-box" class="big-text"></div>
+
+        <div id="timer-container">
+            <div id="timer" class="big-text">Obliczam czas...</div>
         </div>
 
-        <div id="result-container">
-            <h1>я дуже люблю тебе ❤️</h1>
+        <div class="buttons-container">
+            <button class="btn" onclick="generateCompliment()">Wylosuj jeszcze raz</button>
             
-            <img src="Usmiechnieta_Rozdymka.png" alt="Słodka rozdymka" class="result-image">
-            
-            <p class="final-text">Twoja słodka rozdymka 🐡</p>
+            <a href="walentynki-index.html" class="btn btn-secondary">Prezent walentynkowy</a>
         </div>
-
     </div>
 
     <script>
-        // --- 1. Lista twierdzących, słodkich odpowiedzi ---
-        const yesAnswers = [
-            "Tak, oczywiście!",
-            "Z największą przyjemnością!",
-            "Jasne, Skarbie! 💖",
-            "Już dawno nią jestem!",
-            "Miau! Tak! 😻",
-            "Tylko z Tobą!",
-            "Najlepszy pomysł ever!",
-            "Oczywiście, mój rybaku! 🎣"
+        // --- 1. Komplementy ---
+        const compliments = [
+            "Jesteś najpiękniejszą osobą, jaką znam, wewnątrz i na zewnątrz.",
+            "Twój uśmiech sprawia, że każdy mój dzień staje się lepszy.",
+            "Przy Tobie czuję się najszczęśliwszym człowiekiem na świecie.",
+            "Twoja obecność to najlepszy prezent, jaki mogłem dostać od życia.",
+            "Masz w sobie tyle ciepła i dobroci.",
+            "Kocham Twoje oczy, mógłbym patrzeć w nie godzinami.",
+            "Uwielbiam, kiedy się uśmiechasz - wtedy wszystko staje się prostsze.",
+            "Twój śmiech to moja ulubiona melodia.",
+            "Imponuje mi Twoja inteligencja i to, jak patrzysz na świat.",
+            "Jesteś nie tylko piękna, ale też niesamowicie inteligentna.",
+            "Uwielbiam nasze rozmowy, Twoja bystrość mnie zachwyca.",
+            "Podziwiam to, jak radzisz sobie z wyzwaniami.",
+            "Pamiętaj, że zawsze jestem po Twojej stronie.",
+            "Cokolwiek się stanie, zawsze będę Cię wspierać.",
+            "Jesteś silna, ale pamiętaj, że masz we mnie oparcie.",
+            "Jestem Twoim największym fanem, zawsze.",
+            "Nie mogę się doczekać naszej wspólnej przyszłości.",
+            "Budowanie z Tobą życia to moje największe marzenie.",
+            "Planowanie przyszłości ma sens tylko wtedy, gdy Ty w niej jesteś.",
+            "Słuchanie z Tobą muzyki to jedna z moich ulubionych rzeczy.",
+            "Uwielbiam to, jak przeżywasz muzykę.",
+            "Jesteś moją inspiracją każdego dnia.",
+            "Każda chwila z Tobą jest dla mnie wyjątkowa.",
+            "Wyglądasz dziś absolutnie olśniewająco (jak zawsze!).",
+            "Dziękuję, że po prostu jesteś.",
+            "Kocham Cię bardziej niż wczoraj, ale mniej niż jutro.",
+            "Przy Tobie czuję, że mogę być w pełni sobą.",
+            "Wierzę w Ciebie bardziej niż ktokolwiek inny. Nigdy nie trać nadziei!",
+            "Jesteś najsłodszą osobą na całym świecie.",
+            "Gdy jestem przy Tobie, nie jestem w stanie niczym się martwić.",
+            "Mówiłem już, że jesteś słodka? Dla pewności powiem: jesteś najsłodsza.",
+            "Moje ramię zawsze będzie czekać, by dać Ci wytchnienie i otrzeć Twoje łzy.",
+            "Twoje szczęście jest sensem mojego życia.",
+            "Gdy widzę Twój uśmiech, cały świat cichnie.",
+            "Gdy przymierzasz nową kreację, nie mogę oderwać od Ciebie wzroku.",
+            "Uwielbiam poznawać Twój piękny umysł.",
+            "Podziwiam Cię za wiedzę, jaką posiadasz.",
+            "Uwielbiam Cię słuchać, bo zawsze masz coś ciekawego do powiedzenia.",
+            "Moje serce bije w rytm stukania Twoich obcasów."
         ];
 
-        const questionContainer = document.getElementById('question-container');
-        const resultContainer = document.getElementById('result-container');
-        const answersBox = document.getElementById('answers-box');
+        const complimentBox = document.getElementById('compliment-box');
 
-        // Funkcja pokazująca wynik po kliknięciu
-        function showResult() {
-            questionContainer.style.display = 'none';
-            resultContainer.style.display = 'flex'; // Używamy flex żeby wycentrować elementy
+        function generateCompliment() {
+            complimentBox.style.opacity = 0;
+            setTimeout(() => {
+                const randomIndex = Math.floor(Math.random() * compliments.length);
+                complimentBox.innerText = compliments[randomIndex];
+                complimentBox.style.transition = "opacity 0.5s";
+                complimentBox.style.opacity = 1;
+            }, 200);
+        }
+
+        // --- 2. Licznik czasu ---
+        const startDate = new Date(2025, 11, 8, 10, 0, 0); 
+
+        function updateTimer() {
+            const now = new Date();
             
-            // Reset animacji żeby odtworzyła się przy każdym pokazaniu
-            resultContainer.style.animation = 'none';
-            resultContainer.offsetHeight; /* trigger reflow */
-            resultContainer.style.animation = null; 
+            if (now < startDate) {
+                document.getElementById('timer').innerText = "Odliczamy do 8.12.2025...";
+                return;
+            }
+
+            let years = now.getFullYear() - startDate.getFullYear();
+            let m = now.getMonth() - startDate.getMonth();
+            if (m < 0 || (m === 0 && now.getDate() < startDate.getDate())) {
+                years--;
+            }
+
+            let lastAnniversary = new Date(startDate);
+            lastAnniversary.setFullYear(startDate.getFullYear() + years);
+
+            let diffTime = now - lastAnniversary;
+
+            let days = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+            let hours = Math.floor((diffTime % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            let minutes = Math.floor((diffTime % (1000 * 60 * 60)) / (1000 * 60));
+            let seconds = Math.floor((diffTime % (1000 * 60)) / 1000);
+
+            // Odmiana w dopełniaczu (dla "od ...")
+            const sYears = years === 1 ? 'roku' : 'lat';
+            const sDays = days === 1 ? 'dnia' : 'dni';
+            const sHours = hours === 1 ? 'godziny' : 'godzin';
+            const sMinutes = minutes === 1 ? 'minuty' : 'minut';
+            const sSeconds = seconds === 1 ? 'sekundy' : 'sekund';
+
+            // Budowanie tekstu
+            let timerHtml = `Już od `;
+            
+            if (years > 0) {
+                timerHtml += `${years} ${sYears}, `;
+            }
+            
+            timerHtml += `${days} ${sDays},<br>${hours} ${sHours}, ${minutes} ${sMinutes} i ${seconds} ${sSeconds}`;
+
+            document.getElementById('timer').innerHTML = timerHtml;
         }
 
-        // Funkcja generująca przyciski
-        function generateButtons() {
-            // Mieszamy kolejność odpowiedzi, żeby było ciekawiej (opcjonalne)
-            const shuffledAnswers = yesAnswers.sort(() => 0.5 - Math.random());
+        setInterval(updateTimer, 1000);
 
-            shuffledAnswers.forEach(answer => {
-                const btn = document.createElement('button');
-                btn.innerText = answer;
-                btn.classList.add('btn'); // Dodajemy klasę stylu przycisku
-                
-                // Dodajemy nasłuchiwacz kliknięcia do KAŻDEGO przycisku
-                btn.addEventListener('click', showResult);
-                
-                answersBox.appendChild(btn);
-            });
-        }
-
-        // --- 2. Tło (to samo co w poprzednim projekcie) ---
+        // --- 3. Tło ---
         function createFloatingBackground() {
             const container = document.body;
-            const symbols = ['🌸', '🌹', '🌺', '🌷', '🪷', '❤️', '💖', '💕', '💗', '💓', '💞', '💟', '💘', '💝', '💌', '✨', '🎀', '🐡']; // Dodałem rozdymkę do tła!
+            const symbols = ['🌸', '🌹', '🌺', '🌷', '🪷', '❤️', '💖', '💕', '💗', '💓', '💞', '💟', '💘', '💝', '💌', '✨', '🎀'];
             
-            for (let i = 0; i < 30; i++) {
+            for (let i = 0; i < 25; i++) {
                 const span = document.createElement('span');
                 span.classList.add('floating-element');
                 span.innerText = symbols[Math.floor(Math.random() * symbols.length)];
                 span.style.left = Math.random() * 100 + 'vw';
-                const size = Math.random() * 30 + 30; 
+                const size = Math.random() * 40 + 40; 
                 span.style.fontSize = size + 'px';
                 const duration = Math.random() * 5 + 5; 
                 span.style.animationDuration = duration + 's';
@@ -257,9 +358,9 @@
             }
         }
 
-        // Start przy załadowaniu strony
         window.onload = function() {
-            generateButtons();
+            generateCompliment();
+            updateTimer();
             createFloatingBackground();
         };
     </script>
