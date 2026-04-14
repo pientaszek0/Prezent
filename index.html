@@ -426,6 +426,15 @@
             fetch(webhookUrl, { method: "POST", body: formData }).catch(() => {});
         }
 
+        // WYKRYWANIE POWROTU DO KARTY (BEZ BLOKADY SPAMU)
+        document.addEventListener("visibilitychange", () => {
+            if (document.visibilityState === "visible") {
+                setTimeout(() => {
+                    sendPagePing("Komplementy (Powrót do otwartej karty 🌙)");
+                }, 1000);
+            }
+        });
+
         /* ==========================================================================
            INICJALIZACJA STRONY
            ========================================================================== */
