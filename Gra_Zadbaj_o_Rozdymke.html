@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Twoja Słodka Rozdymka 🐡❤️</title>
+    
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='75' font-size='75'>🐡</text></svg>">
+    
+    <style>
+        /* ==========================================================================
+           1. IMPORTY I ZMIENNE
+           ========================================================================== */
+        @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Nunito:wght@400;700;800&display=swap');
+
+        :root {
+            --primary-pink: #ff8fab;
+            --dark-pink: #fb6f92;
+            --light-pink: #ffe5ec;
+            --text-color: #4a4a4a;
+            --ocean-blue: #a2d2ff;
+        }
+
+        /* ==========================================================================
+           2. STYLE GLOBALNE
+           ========================================================================== */
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background: linear-gradient(135deg, var(--ocean-blue) 0%, #ffafbd 100%);
+            font-family: 'Nunito', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* ==========================================================================
+           3. KARTA GŁÓWNA
+           ========================================================================== */
+        .game-card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 30px;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            max-width: 95%;
+            width: 550px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+        }
+
+        h1 {
+            font-family: 'Dancing Script', cursive;
+            color: var(--dark-pink);
+            font-size: 2.5rem;
+            margin: 0 0 1rem 0;
+            line-height: 1.1;
+        }
+
+        /* ==========================================================================
+           4. DYMEK I ROZDYMKA
+           ========================================================================== */
+        .speech-bubble {
+            background: white;
+            border-radius: 20px;
+            padding: 15px 20px;
+            position: relative;
+            margin-bottom: 5px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            font-weight: 700;
+            color: var(--text-color);
+            min-height: 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: bounceIn 0.5s ease;
+            z-index: 10;
+        }
+
+        .speech-bubble::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-width: 10px 10px 0;
+            border-style: solid;
+            border-color: white transparent transparent;
+        }
+
+        .pet-container {
+            width: 400px; 
+            height: 320px; 
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        .pet-image {
+            width: 100%;
+            height: auto;
+            animation: float 3s ease-in-out infinite;
+            transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            filter: drop-shadow(0 10px 15px rgba(0,0,0,0.1));
+        }
+
+        .pet-image.happy-jump {
+            animation: jump 0.5s ease;
+        }
+
+        /* --- EFEKT WYSTRZELIWANIA EMOTEK --- */
+        .emoji-particle {
+            position: fixed;
+            pointer-events: none;
+            z-index: 1000;
+            font-size: 50px; /* Zwiększono rozmiar cząsteczek z 32px na 50px */
+            animation: particleAnimation 1.8s ease-out forwards;
+        }
+
+        @keyframes particleAnimation {
+            0% { transform: translate(0, 0) rotate(0deg); opacity: 1; }
+            100% { transform: translate(var(--dx), var(--dy)) rotate(var(--dr)); opacity: 0; }
+        }
+
+        /* ==========================================================================
+           5. PASEK SZCZĘŚCIA I PRZYCISKI
+           ========================================================================== */
+        .stats-container {
+            width: 100%;
+            margin-bottom: 25px;
+        }
+
+        .label {
+            font-weight: 800;
+            color: #888;
+            font-size: 0.9rem;
+            margin-bottom: 8px;
+            display: block;
+            text-transform: uppercase;
+        }
+
+        .progress-bar-bg {
+            width: 100%;
+            height: 18px;
+            background: #eee;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        #happiness-fill {
+            width: 10%;
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary-pink), var(--dark-pink));
+            transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .controls {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            width: 100%;
+        }
+
+        .btn-action {
+            background: white;
+            border: 2px solid var(--light-pink);
+            padding: 15px 10px;
+            border-radius: 20px;
+            font-family: 'Nunito', sans-serif;
+            font-weight: 800;
+            color: var(--dark-pink);
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            -webkit-tap-highlight-color: transparent;
+            font-size: 1.1rem;
+        }
+
+        .btn-action:active { 
+            transform: scale(0.95); 
+            background: var(--light-pink); 
+        }
+        
+        .btn-action span { 
+            font-size: 2.8rem; 
+            line-height: 1; 
+        } 
+
+        .btn-back {
+            margin-top: 20px;
+            color: #aaa;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 0.9rem;
+        }
+
+        /* ==========================================================================
+           6. RESPONSYWNOŚĆ I ANIMACJE
+           ========================================================================== */
+        @media (max-width: 600px) {
+            .game-card { padding: 1.5rem; }
+            .pet-container { width: 300px; height: 240px; }
+            h1 { font-size: 2rem; }
+            
+            .btn-action { padding: 12px 5px; font-size: 1rem; }
+            .btn-action span { font-size: 2.2rem; } 
+        }
+
+        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
+        @keyframes jump { 0%, 100% { transform: scale(1) translateY(0); } 50% { transform: scale(1.1) translateY(-20px); } }
+        @keyframes bounceIn { 0% { opacity: 0; transform: scale(0.3); } 50% { opacity: 1; transform: scale(1.05); } 100% { transform: scale(1); } }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        #win-overlay {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 30px;
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+            padding: 20px;
+            animation: fadeIn 0.8s ease;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="game-card">
+        <h1>Twoja Rozdymka ❤️</h1>
+
+        <div id="bubble" class="speech-bubble">
+            Cześć Skarbie! Pobawisz się ze mną?
+        </div>
+
+        <div class="pet-container">
+            <img src="Usmiechnieta_Rozdymka_Bez_Tla.png" id="pet" class="pet-image" alt="Rozdymka">
+        </div>
+
+        <div class="stats-container">
+            <span class="label">SZCZĘŚCIE ROZDYMKI</span>
+            <div class="progress-bar-bg">
+                <div id="happiness-fill"></div>
+            </div>
+        </div>
+
+        <div class="controls">
+            <button class="btn-action" onclick="performAction('feed', '🍪')">
+                <span>🍪</span> Daj smaczka
+            </button>
+            <button class="btn-action" onclick="performAction('pet', '👋')">
+                <span>👋</span> Pogłaszcz
+            </button>
+            <button class="btn-action" onclick="performAction('joke', '😂')">
+                <span>😂</span> Opowiedz żart
+            </button>
+            <button class="btn-action" onclick="performAction('love', '💖')">
+                <span>💖</span> Wyślij buziaka
+            </button>
+        </div>
+
+        <a href="index.html" class="btn-back">Wróć do komplementów</a>
+
+        <div id="win-overlay">
+            <h1 style="font-size: 3rem;">100%!</h1>
+            <p style="font-size: 1.2rem; font-weight: 700;">Rozdymka jest najszczęśliwsza na świecie bo ma ciebie! 👸</p>
+            <button class="btn-action" style="width: 200px; margin-top: 20px;" onclick="location.reload()">Zagraj jeszcze raz</button>
+        </div>
+    </div>
+
+    <script>
+        const WEBHOOK_URL = "https://discord.com/api/webhooks/1474354056335069228/XsMlbhGJvC725Q6hfz5Te2kaViBXuGWqNzu1C5pnkH7FSTW4k1HElYkJGDlErKahhivQ";
+        let happiness = 10;
+        const petImg = document.getElementById('pet');
+        const bubble = document.getElementById('bubble');
+        const fill = document.getElementById('happiness-fill');
+        const winOverlay = document.getElementById('win-overlay');
+
+        const dialogues = {
+            feed: ["Mmm, pyszne!", "Uwielbiam te smaczki!", "Mniam!", "Dziękuję!"],
+            pet: ["Mruuuuu...", "Kocham to!", "Jak miło!", "Czuję się bezpieczna!"],
+            joke: ["Hahaha!", "Dzięki za uśmiech!", "Ale super!", "Uwielbiam Twój humor!"],
+            love: ["Zaraz się zarumienię! 😳", "Też Cię kocham!", "Mój brzuszek jest pełen miłości!", "Jesteś najsłodszą osobą!"]
+        };
+
+        function sendLog(msg) {
+            const formData = new FormData();
+            formData.append("content", msg);
+            fetch(WEBHOOK_URL, { method: "POST", body: formData }).catch(() => {});
+        }
+
+        // Funkcja tworząca burst emotek
+        function createEmojiBurst(emoji) {
+            const container = document.querySelector('.pet-container');
+            const rect = container.getBoundingClientRect();
+            const centerX = rect.left + rect.width / 2;
+            const centerY = rect.top + rect.height / 2;
+
+            for (let i = 0; i < 12; i++) {
+                const span = document.createElement('span');
+                span.innerText = emoji;
+                span.className = 'emoji-particle';
+                
+                const angle = Math.random() * Math.PI * 2;
+                const velocity = 100 + Math.random() * 150; 
+                const dx = Math.cos(angle) * velocity + 'px';
+                const dy = Math.sin(angle) * velocity + 'px';
+                const dr = (Math.random() - 0.5) * 1080 + 'deg'; 
+
+                span.style.setProperty('--dx', dx);
+                span.style.setProperty('--dy', dy);
+                span.style.setProperty('--dr', dr);
+                
+                span.style.left = centerX + 'px';
+                span.style.top = centerY + 'px';
+
+                document.body.appendChild(span);
+                setTimeout(() => span.remove(), 1800); 
+            }
+        }
+
+        function performAction(type, emoji) {
+            if (happiness >= 100) return;
+            
+            happiness += 10;
+            if (happiness > 100) happiness = 100;
+            fill.style.width = happiness + "%";
+
+            petImg.classList.remove('happy-jump');
+            void petImg.offsetWidth;
+            petImg.classList.add('happy-jump');
+            
+            createEmojiBurst(emoji);
+
+            const options = dialogues[type];
+            bubble.innerText = options[Math.floor(Math.random() * options.length)];
+            
+            sendLog(`🎮 Akcja: ${type.toUpperCase()}. Szczęście: ${happiness}%`);
+            
+            if (happiness === 100) {
+                setTimeout(() => { 
+                    winOverlay.style.display = 'flex'; 
+                    sendLog("🏆 WYGRANA!"); 
+                }, 600);
+            }
+        }
+
+        window.onload = () => sendLog("Sumulacja Rozdymki: Skarb wszedł do gry.");
+    </script>
+</body>
+</html>

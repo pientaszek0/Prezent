@@ -28,8 +28,8 @@
             padding: 0;
             width: 100%;
             height: 100%;
-            overflow: hidden; /* Zapobiega pojawianiu się pasków przewijania */
-            position: fixed;  /* Blokuje "gumkowanie" tła na urządzeniach mobilnych */
+            overflow: hidden; 
+            position: fixed;  
             display: flex;
             justify-content: center;
             align-items: center;
@@ -87,7 +87,6 @@
             line-height: 1.4;
         }
 
-        /* Pole z losowanym komplementem */
         #compliment-box {
             min-height: 80px;
             display: flex;
@@ -113,7 +112,7 @@
 
         #timer {
             color: var(--dark-pink);
-            font-variant-numeric: tabular-nums; /* Zapobiega skakaniu cyfr o różnej szerokości */
+            font-variant-numeric: tabular-nums; 
         }
 
         /* ==========================================================================
@@ -129,12 +128,11 @@
             width: 100%;
         }
 
-        /* Główny przycisk - Losowanie */
         .btn {
             background-color: var(--dark-pink);
             color: white;
             border: none;
-            padding: 12px 30px;
+            padding: 12px 15px; /* Minimalnie zmniejszony padding by pomieścić emotki */
             border-radius: 50px;
             font-size: 1.1rem;
             cursor: pointer;
@@ -143,9 +141,23 @@
             font-family: 'Nunito', sans-serif;
             -webkit-tap-highlight-color: transparent;
             text-decoration: none; 
-            display: inline-block;
-            width: 80%; 
-            max-width: 300px;
+            
+            /* Ustawienie równej szerokości */
+            width: 100%; 
+            max-width: 350px; /* Poszerzone do 350px, aby zmieścił się tekst z emotkami */
+            box-sizing: border-box;
+            
+            /* Wyśrodkowanie tekstu z emotkami */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* Klasa dla dużych emotek w przycisku */
+        .btn .emoji {
+            font-size: 1.8rem;
+            line-height: 1;
         }
 
         .btn:hover {
@@ -158,15 +170,14 @@
             transform: translateY(1px);
         }
 
-        /* Poboczny przycisk - Przejście do prezentu (Ghost Button) */
+        /* Poboczne przyciski (Ghost Buttons) - usunięto stąd "width: auto" */
         .btn-secondary {
             background-color: transparent;
             color: var(--dark-pink);
             border: 2px solid var(--dark-pink);
-            padding: 10px 28px; 
+            padding: 10px 13px; /* Skompensowane o ramkę (2px) */
             box-shadow: none;
             font-size: 1rem; 
-            width: auto;
         }
 
         .btn-secondary:hover {
@@ -191,14 +202,18 @@
 
             .btn {
                 width: 100%; 
-                padding: 10px 25px;
+                padding: 10px 10px;
                 font-size: 1rem;
+                gap: 5px;
+            }
+            
+            .btn .emoji {
+                font-size: 1.5rem;
             }
 
             .btn-secondary {
-                padding: 8px 23px;
+                padding: 8px 8px;
                 font-size: 0.95rem;
-                width: auto;
             }
         }
 
@@ -217,7 +232,7 @@
             opacity: 0.6;
             z-index: 1;
             font-size: 40px; 
-            pointer-events: none; /* Zapobiega blokowaniu kliknięć w przyciski */
+            pointer-events: none; 
         }
 
         @keyframes floatUp {
@@ -242,13 +257,21 @@
         </div>
 
         <div class="buttons-container">
-            <button class="btn" onclick="generateCompliment(true)">Wylosuj jeszcze raz</button>
-            <a href="walentynki-index.html" class="btn btn-secondary">Prezent walentynkowy</a>
+            <button class="btn" onclick="generateCompliment(true)">
+                <span class="emoji">💌</span> Wylosuj jeszcze raz <span class="emoji">💌</span>
+            </button>
+            
+            <a href="Gra_Zadbaj_o_Rozdymke.html" class="btn btn-secondary">
+                <span class="emoji">🐡</span> Zadbaj o Rozdymkę <span class="emoji">🐡</span>
+            </a>
+            
+            <a href="walentynki-index.html" class="btn btn-secondary">
+                <span class="emoji">💝</span> Prezent Walentynkowy <span class="emoji">💝</span>
+            </a>
         </div>
     </div>
 
     <script>
-        // Flaga sprawdzająca, czy to pierwsze załadowanie strony (zapobiega podwójnemu pingowaniu komplementu)
         let isFirstLoad = true; 
 
         /* ==========================================================================
@@ -298,7 +321,6 @@
 
         const complimentBox = document.getElementById('compliment-box');
 
-        // Funkcja losująca i podmieniająca komplement (z efektem przejścia)
         function generateCompliment(isButtonClick = false) {
             complimentBox.style.opacity = 0;
             
@@ -310,7 +332,6 @@
                 complimentBox.style.transition = "opacity 0.5s";
                 complimentBox.style.opacity = 1;
 
-                // Pingujemy Discorda tylko wtedy, gdy akcja pochodzi z kliknięcia przycisku
                 if (isButtonClick && !isFirstLoad) {
                     sendCustomPing(`✨ Wylosowała: *"${drawnCompliment}"*`);
                 }
@@ -320,7 +341,7 @@
         /* ==========================================================================
            SKRYPT 2: OBSŁUGA LICZNIKA CZASU
            ========================================================================== */
-        const startDate = new Date(2025, 11, 8, 10, 0, 0); // Miesiące są indeksowane od 0 (11 = grudzień)
+        const startDate = new Date(2025, 11, 8, 10, 0, 0); 
 
         function updateTimer() {
             const now = new Date();
@@ -330,7 +351,6 @@
                 return;
             }
 
-            // Matematyka obliczająca różnicę czasu
             let years = now.getFullYear() - startDate.getFullYear();
             let m = now.getMonth() - startDate.getMonth();
             if (m < 0 || (m === 0 && now.getDate() < startDate.getDate())) {
@@ -346,14 +366,12 @@
             let minutes = Math.floor((diffTime % (1000 * 60 * 60)) / (1000 * 60));
             let seconds = Math.floor((diffTime % (1000 * 60)) / 1000);
 
-            // Odmiana gramatyczna w dopełniaczu (dla formatu "od...")
             const sYears = years === 1 ? 'roku' : 'lat';
             const sDays = days === 1 ? 'dnia' : 'dni';
             const sHours = hours === 1 ? 'godziny' : 'godzin';
             const sMinutes = minutes === 1 ? 'minuty' : 'minut';
             const sSeconds = seconds === 1 ? 'sekundy' : 'sekund';
 
-            // Składanie docelowego tekstu
             let timerHtml = `Już od `;
             if (years > 0) {
                 timerHtml += `${years} ${sYears}, `;
@@ -363,7 +381,6 @@
             document.getElementById('timer').innerHTML = timerHtml;
         }
 
-        // Uruchamianie odliczania co 1 sekundę
         setInterval(updateTimer, 1000);
 
         /* ==========================================================================
@@ -377,7 +394,6 @@
                 const span = document.createElement('span');
                 span.classList.add('floating-element');
                 
-                // Losowanie parametrów animacji
                 span.innerText = symbols[Math.floor(Math.random() * symbols.length)];
                 span.style.left = Math.random() * 100 + 'vw';
                 span.style.fontSize = (Math.random() * 40 + 40) + 'px';
@@ -391,8 +407,6 @@
         /* ==========================================================================
            SKRYPT 4: WEBHOOKI DISCORD (POWIADOMIENIA)
            ========================================================================== */
-        
-        // Powiadomienie główne o wejściu na stronę
         function sendPagePing(pageName) {
             const webhookUrl = "https://discord.com/api/webhooks/1474354056335069228/XsMlbhGJvC725Q6hfz5Te2kaViBXuGWqNzu1C5pnkH7FSTW4k1HElYkJGDlErKahhivQ"; 
             const now = new Date().toLocaleString("pl-PL");
@@ -403,7 +417,6 @@
             fetch(webhookUrl, { method: "POST", body: formData }).catch(() => {});
         }
 
-        // Powiadomienie dodatkowe (używane do losowania komplementów)
         function sendCustomPing(message) {
             const webhookUrl = "https://discord.com/api/webhooks/1474354056335069228/XsMlbhGJvC725Q6hfz5Te2kaViBXuGWqNzu1C5pnkH7FSTW4k1HElYkJGDlErKahhivQ"; 
             
@@ -421,10 +434,8 @@
             updateTimer();
             createFloatingBackground();
             
-            // Wysłanie pingu na Discorda
             sendPagePing("Komplementy"); 
 
-            // Ustawienie flagi po krótkim opóźnieniu (chroni przed podwójnym pingiem przy załadowaniu)
             setTimeout(() => { isFirstLoad = false; }, 500);
         };
     </script>
