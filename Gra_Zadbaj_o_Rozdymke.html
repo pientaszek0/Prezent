@@ -45,8 +45,9 @@
             /* Płynna szerokość i wysokość */
             width: 92vw;
             max-width: 550px;
-            max-height: 95dvh; /* Użycie dynamicznego viewportu */
-            overflow-y: auto;  /* Przewijanie na bardzo małych ekranach */
+            max-height: 95dvh; 
+            overflow-y: auto;  
+            overflow-x: hidden; /* Zabezpieczenie przed paskiem poziomym */
             
             display: flex;
             flex-direction: column;
@@ -98,10 +99,9 @@
 
         /* --- ROZDYMKA --- */
         .pet-container {
-            /* Idealne skalowanie! 55vmin oznacza 55% mniejszego boku ekranu */
             width: 55vmin; 
             max-width: 350px; 
-            aspect-ratio: 5 / 4; /* Zachowuje proporcje zamiast sztywnego height */
+            aspect-ratio: 5 / 4; 
             height: auto;
             margin: 0 auto;
             display: flex;
@@ -113,7 +113,7 @@
         .pet-image {
             width: 100%;
             height: 100%;
-            object-fit: contain; /* Obrazek nigdy się nie zniekształci */
+            object-fit: contain; 
             animation: float 3s ease-in-out infinite;
             transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             filter: drop-shadow(0 10px 15px rgba(0,0,0,0.1));
@@ -128,7 +128,6 @@
             position: fixed;
             pointer-events: none;
             z-index: 1000;
-            /* Wielkość cząsteczki też zależy od ekranu */
             font-size: clamp(30px, 8vmin, 50px);
             animation: particleAnimation 1.8s ease-out forwards;
         }
@@ -217,16 +216,20 @@
 
         #win-overlay {
             position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
+            top: 0; left: 0; 
+            width: 100%; height: 100%;
             background: rgba(255, 255, 255, 0.95);
-            border-radius: clamp(20px, 5vw, 30px);
+            border-radius: inherit; /* Dziedziczy zaokrąglenie po karcie głównej */
             display: none;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             z-index: 100;
             padding: 20px;
+            box-sizing: border-box; /* Zabezpieczenie przed rozpychaniem w dół/bok przez padding */
+            overflow: hidden; /* Zabezpieczenie przed paskami przewijania */
             animation: fadeIn 0.8s ease;
+            text-align: center;
         }
     </style>
 </head>
@@ -295,14 +298,12 @@
             fetch(WEBHOOK_URL, { method: "POST", body: formData }).catch(() => {});
         }
 
-        // Zaktualizowane wystrzeliwanie emotek (Zależne od rozmiaru ekranu!)
         function createEmojiBurst(emoji) {
             const container = document.querySelector('.pet-container');
             const rect = container.getBoundingClientRect();
             const centerX = rect.left + rect.width / 2;
             const centerY = rect.top + rect.height / 2;
             
-            // Pobieramy minimalny wymiar ekranu, by dostosować siłę wybuchu
             const vmin = Math.min(window.innerWidth, window.innerHeight);
 
             for (let i = 0; i < 12; i++) {
@@ -311,7 +312,6 @@
                 span.className = 'emoji-particle';
                 
                 const angle = Math.random() * Math.PI * 2;
-                // Siła wystrzału uzależniona od wielkości ekranu (15-35% ekranu)
                 const velocity = vmin * (0.15 + Math.random() * 0.20); 
                 
                 const dx = Math.cos(angle) * velocity + 'px';
