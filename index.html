@@ -45,13 +45,17 @@
             background: rgba(255, 255, 255, 0.85);
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
-            border-radius: 25px;
-            padding: 2rem;
+            border-radius: clamp(20px, 5vw, 25px);
+            padding: clamp(1.5rem, 5vw, 2.5rem);
             text-align: center;
             box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
             border: 1px solid rgba(255, 255, 255, 0.5);
-            max-width: 90%;
-            width: 480px;
+            
+            width: 90vw;
+            max-width: 480px;
+            max-height: 95dvh;
+            overflow-y: auto; 
+            
             z-index: 10;
             animation: fadeIn 1.5s ease-out;
             position: relative;
@@ -68,7 +72,7 @@
         h1 {
             font-family: 'Dancing Script', cursive;
             color: var(--dark-pink);
-            font-size: 3.5rem;
+            font-size: clamp(2.2rem, 10vw, 3.5rem);
             margin: 0 0 0.5rem 0;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
             line-height: 1.1;
@@ -76,23 +80,23 @@
 
         .subtitle {
             color: #888;
-            font-size: 1.1rem;
-            margin-bottom: 1.5rem;
+            font-size: clamp(0.9rem, 4vw, 1.1rem);
+            margin-bottom: clamp(1rem, 3vh, 1.5rem);
         }
 
         .big-text {
-            font-size: 1.5rem;
+            font-size: clamp(1.1rem, 5vw, 1.5rem);
             color: var(--text-color);
             font-weight: 800;
             line-height: 1.4;
         }
 
         #compliment-box {
-            min-height: 80px;
+            min-height: clamp(60px, 15vh, 80px);
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-bottom: 1.5rem;
+            margin-bottom: clamp(1rem, 3vh, 1.5rem);
             width: 100%;
         }
 
@@ -101,10 +105,10 @@
            ========================================================================== */
         #timer-container {
             background: rgba(255, 255, 255, 0.6); 
-            padding: 1.5rem;
+            padding: clamp(1rem, 3vh, 1.5rem);
             border-radius: 20px;
             border: 1px solid rgba(255, 255, 255, 0.8);
-            margin-bottom: 1.5rem;
+            margin-bottom: clamp(1rem, 3vh, 1.5rem);
             width: 100%;
             box-sizing: border-box; 
             box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.5);
@@ -121,7 +125,7 @@
         .buttons-container {
             display: flex;
             flex-direction: column; 
-            gap: 12px;
+            gap: clamp(8px, 2vh, 12px);
             justify-content: center;
             align-items: center;
             margin-top: auto;
@@ -132,9 +136,9 @@
             background-color: var(--dark-pink);
             color: white;
             border: none;
-            padding: 12px 15px; /* Minimalnie zmniejszony padding by pomieścić emotki */
+            padding: clamp(10px, 2vh, 12px) 10px;
             border-radius: 50px;
-            font-size: 1.1rem;
+            font-size: clamp(0.9rem, 4vw, 1.1rem);
             cursor: pointer;
             transition: all 0.3s ease;
             box-shadow: 0 4px 15px rgba(251, 111, 146, 0.4);
@@ -142,21 +146,18 @@
             -webkit-tap-highlight-color: transparent;
             text-decoration: none; 
             
-            /* Ustawienie równej szerokości */
             width: 100%; 
-            max-width: 350px; /* Poszerzone do 350px, aby zmieścił się tekst z emotkami */
+            max-width: 350px; 
             box-sizing: border-box;
             
-            /* Wyśrodkowanie tekstu z emotkami */
             display: flex;
             justify-content: center;
             align-items: center;
-            gap: 10px;
+            gap: clamp(5px, 2vw, 10px);
         }
 
-        /* Klasa dla dużych emotek w przycisku */
         .btn .emoji {
-            font-size: 1.8rem;
+            font-size: clamp(1.4rem, 6vw, 1.8rem);
             line-height: 1;
         }
 
@@ -166,18 +167,13 @@
             box-shadow: 0 6px 20px rgba(251, 111, 146, 0.6);
         }
 
-        .btn:active {
-            transform: translateY(1px);
-        }
+        .btn:active { transform: translateY(1px); }
 
-        /* Poboczne przyciski (Ghost Buttons) - usunięto stąd "width: auto" */
         .btn-secondary {
             background-color: transparent;
             color: var(--dark-pink);
             border: 2px solid var(--dark-pink);
-            padding: 10px 13px; /* Skompensowane o ramkę (2px) */
             box-shadow: none;
-            font-size: 1rem; 
         }
 
         .btn-secondary:hover {
@@ -187,38 +183,7 @@
         }
 
         /* ==========================================================================
-           7. RESPONSYWNOŚĆ (TELEFONY)
-           ========================================================================== */
-        @media (max-width: 600px) {
-            .card {
-                padding: 1.5rem;
-                width: 90%;
-            }
-
-            h1 { font-size: 2.5rem; }
-            .big-text { font-size: 1.2rem; }
-            #compliment-box { min-height: 70px; }
-            #timer-container { padding: 1rem; }
-
-            .btn {
-                width: 100%; 
-                padding: 10px 10px;
-                font-size: 1rem;
-                gap: 5px;
-            }
-            
-            .btn .emoji {
-                font-size: 1.5rem;
-            }
-
-            .btn-secondary {
-                padding: 8px 8px;
-                font-size: 0.95rem;
-            }
-        }
-
-        /* ==========================================================================
-           8. ANIMACJE I TŁO
+           7. ANIMACJE I TŁO
            ========================================================================== */
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(20px); }
@@ -231,7 +196,7 @@
             animation: floatUp linear infinite;
             opacity: 0.6;
             z-index: 1;
-            font-size: 40px; 
+            font-size: clamp(25px, 8vw, 40px); 
             pointer-events: none; 
         }
 
@@ -275,9 +240,10 @@
         let isFirstLoad = true; 
 
         /* ==========================================================================
-           SKRYPT 1: OBSŁUGA KOMPLEMENTÓW
+           SKRYPT 1: OBSŁUGA KOMPLEMENTÓW Z NOWĄ BAZĄ POTRZEB
            ========================================================================== */
         const compliments = [
+            // --- Twoje oryginalne komplementy ---
             "Jesteś najpiękniejszą osobą, jaką znam, wewnątrz i na zewnątrz.",
             "Twój uśmiech sprawia, że każdy mój dzień staje się lepszy.",
             "Przy Tobie czuję się najszczęśliwszym człowiekiem na świecie.",
@@ -316,7 +282,34 @@
             "Uwielbiam poznawać Twój piękny umysł.",
             "Podziwiam Cię za wiedzę, jaką posiadasz.",
             "Uwielbiam Cię słuchać, bo zawsze masz coś ciekawego do powiedzenia.",
-            "Moje serce bije w rytm stukania Twoich obcasów."
+            "Moje serce bije w rytm stukania Twoich obcasów.",
+
+            "Przy mnie zawsze możesz czuć się całkowicie bezpieczna i chroniona.",
+            "Uwielbiam Cię słuchać. Twoje myśli i słowa zawsze mają dla mnie ogromne znaczenie.",
+            "Zawsze będę się starał rozumieć Twoje emocje. Masz we mnie pełne wsparcie.",
+            "Chcę budować naszą relację w Twoim własnym, najbardziej komfortowym tempie.",
+            "Szanuję Twoje granice. Zawsze będę liczył się z Twoim zdaniem.",
+            "Nigdy nie będę wywierał na Tobie presji. Nic na siłę, wszystko w swoim czasie.",
+            "Uwielbiam dbać o Ciebie tak, abyś zawsze czuła się w stu procentach kobietą.",
+            "Kocham Cię bezwarunkowo, akceptując każdy kawałek Twojej osobowości.",
+            "Zawsze będę wierzył w Ciebie i Twoje możliwości. Nie pozwolę podciąć Ci skrzydeł.",
+            "Jeśli popełnię błąd, zawsze będę potrafił Cię za to szczerze przeprosić.",
+            "Nigdzie nam się nie spieszy. Nie stawiam przed Tobą żadnych deadlinów.",
+            "Chcę dawać Ci miłość bez żadnych oczekiwań, całkowicie bezwarunkowo.",
+            "Pamiętaj, że masz u mnie absolutne prawo do zmiany zdania w każdej kwestii.",
+            "Jesteś dla mnie ważna i pożądana każdego dnia. Jesteś moim priorytetem.",
+            "Zawsze będę brał Twoje obawy i uczucia na poważnie. Nigdy ich nie zbagatelizuję.",
+            "Chcę dawać Ci stabilność i oparcie, na którym zawsze możesz polegać.",
+            "Moje intencje wobec Ciebie są jasne i szczere - chcę Twojego szczęścia.",
+            "Będę spójny w tym co mówię i co robię, żebyś zawsze miała we mnie pewność.",
+            "Z przyjemnością biorę na siebie ciężar wielu decyzji, żebyś Ty mogła odpocząć.",
+            "Moja lojalność wobec Ciebie jest niezachwiana. Ufam Ci i wspieram w każdej sytuacji.",
+            "Wierzę w naszą przyszłość i z radością przejmuję inicjatywę w dążeniu do niej.",
+            "Jesteś moją księżniczką i uwielbiam o Ciebie dbać na każdym kroku.",
+            "Sprawianie Ci niespodzianek, drobnych prezentów i dawanie kwiatów to czysta radość.",
+            "Twoje szczęście nie jest dla mnie transakcją. Kocham Cię, bo po prostu jesteś.",
+            "Zawsze odprowadzę Cię bezpiecznie do domu, żebyś nie musiała się o nic martwić.",
+            "Planowanie naszych randek to dla mnie ogromna przyjemność, uwielbiam spędzać z Tobą czas."
         ];
 
         const complimentBox = document.getElementById('compliment-box');
@@ -338,9 +331,6 @@
             }, 200);
         }
 
-        /* ==========================================================================
-           SKRYPT 2: OBSŁUGA LICZNIKA CZASU
-           ========================================================================== */
         const startDate = new Date(2025, 11, 8, 10, 0, 0); 
 
         function updateTimer() {
@@ -383,9 +373,6 @@
 
         setInterval(updateTimer, 1000);
 
-        /* ==========================================================================
-           SKRYPT 3: GENEROWANIE ANIMOWANEGO TŁA
-           ========================================================================== */
         function createFloatingBackground() {
             const container = document.body;
             const symbols = ['🌸', '🌹', '🌺', '🌷', '🪷', '❤️', '💖', '💕', '💗', '💓', '💞', '💟', '💘', '💝', '💌', '✨', '🎀'];
@@ -396,7 +383,9 @@
                 
                 span.innerText = symbols[Math.floor(Math.random() * symbols.length)];
                 span.style.left = Math.random() * 100 + 'vw';
-                span.style.fontSize = (Math.random() * 40 + 40) + 'px';
+                
+                const minSize = window.innerWidth > 600 ? 40 : 25;
+                span.style.fontSize = (Math.random() * minSize + minSize) + 'px';
                 span.style.animationDuration = (Math.random() * 5 + 5) + 's';
                 span.style.animationDelay = (Math.random() * 5 + 5) + 's';
                 
@@ -404,9 +393,6 @@
             }
         }
 
-        /* ==========================================================================
-           SKRYPT 4: WEBHOOKI DISCORD (POWIADOMIENIA)
-           ========================================================================== */
         function sendPagePing(pageName) {
             const webhookUrl = "https://discord.com/api/webhooks/1474354056335069228/XsMlbhGJvC725Q6hfz5Te2kaViBXuGWqNzu1C5pnkH7FSTW4k1HElYkJGDlErKahhivQ"; 
             const now = new Date().toLocaleString("pl-PL");
@@ -419,14 +405,11 @@
 
         function sendCustomPing(message) {
             const webhookUrl = "https://discord.com/api/webhooks/1474354056335069228/XsMlbhGJvC725Q6hfz5Te2kaViBXuGWqNzu1C5pnkH7FSTW4k1HElYkJGDlErKahhivQ"; 
-            
             const formData = new FormData();
             formData.append("content", message);
-
             fetch(webhookUrl, { method: "POST", body: formData }).catch(() => {});
         }
 
-        // WYKRYWANIE POWROTU DO KARTY (BEZ BLOKADY SPAMU)
         document.addEventListener("visibilitychange", () => {
             if (document.visibilityState === "visible") {
                 setTimeout(() => {
@@ -435,9 +418,6 @@
             }
         });
 
-        /* ==========================================================================
-           INICJALIZACJA STRONY
-           ========================================================================== */
         window.onload = function() {
             generateCompliment();
             updateTimer();
