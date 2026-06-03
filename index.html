@@ -283,7 +283,6 @@
             "Podziwiam Cię za wiedzę, jaką posiadasz.",
             "Uwielbiam Cię słuchać, bo zawsze masz coś ciekawego do powiedzenia.",
             "Moje serce bije w rytm stukania Twoich obcasów.",
-
             "Przy mnie zawsze możesz czuć się całkowicie bezpieczna i chroniona.",
             "Uwielbiam Cię słuchać. Twoje myśli i słowa zawsze mają dla mnie ogromne znaczenie.",
             "Zawsze będę się starał rozumieć Twoje emocje. Masz we mnie pełne wsparcie.",
@@ -341,30 +340,52 @@
                 return;
             }
 
-            let years = now.getFullYear() - startDate.getFullYear();
-            let m = now.getMonth() - startDate.getMonth();
-            if (m < 0 || (m === 0 && now.getDate() < startDate.getDate())) {
-                years--;
+            // Krok 1: Precyzyjne obliczanie pełnych lat i miesięcy za pomocą obiektu Date
+            let d = new Date(startDate);
+            let years = 0, months = 0;
+            
+            // Dodawaj po roku, dopóki nie przekroczymy aktualnej daty
+            while (true) {
+                let nextYear = new Date(d);
+                nextYear.setFullYear(d.getFullYear() + 1);
+                if (nextYear <= now) {
+                    years++;
+                    d = nextYear;
+                } else break;
             }
 
-            let lastAnniversary = new Date(startDate);
-            lastAnniversary.setFullYear(startDate.getFullYear() + years);
+            // Następnie dodawaj po miesiącu do pozostałego czasu
+            while (true) {
+                let nextMonth = new Date(d);
+                nextMonth.setMonth(d.getMonth() + 1);
+                if (nextMonth <= now) {
+                    months++;
+                    d = nextMonth;
+                } else break;
+            }
 
-            let diffTime = now - lastAnniversary;
+            // Krok 2: Z pozostałej reszty wyliczamy dni, godziny, minuty i sekundy
+            let diffTime = now - d;
             let days = Math.floor(diffTime / (1000 * 60 * 60 * 24));
             let hours = Math.floor((diffTime % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
             let minutes = Math.floor((diffTime % (1000 * 60 * 60)) / (1000 * 60));
             let seconds = Math.floor((diffTime % (1000 * 60)) / 1000);
 
+            // Krok 3: Logika odmiany (Dopełniacz, tak jak to świetnie napisałeś w oryginale po słówku "od")
             const sYears = years === 1 ? 'roku' : 'lat';
+            const sMonths = months === 1 ? 'miesiąca' : 'miesięcy';
             const sDays = days === 1 ? 'dnia' : 'dni';
             const sHours = hours === 1 ? 'godziny' : 'godzin';
             const sMinutes = minutes === 1 ? 'minuty' : 'minut';
             const sSeconds = seconds === 1 ? 'sekundy' : 'sekund';
 
+            // Krok 4: Składanie wyniku HTML w całość
             let timerHtml = `Już od `;
             if (years > 0) {
                 timerHtml += `${years} ${sYears}, `;
+            }
+            if (months > 0) {
+                timerHtml += `${months} ${sMonths}, `;
             }
             timerHtml += `${days} ${sDays},<br>${hours} ${sHours}, ${minutes} ${sMinutes} i ${seconds} ${sSeconds}`;
 
