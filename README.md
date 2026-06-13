@@ -1,3 +1,5 @@
+*Read this in other languages: [English](README.en.md), [Polski](README.md).*
+
 # 💖 Interaktywny Prezent "Dla Mojej Kochanej"
 
 Witaj w repozytorium mojego osobistego, interaktywnego projektu! Został on stworzony z myślą o mojej dziewczynie, jako cyfrowy, romantyczny prezent, który ma za zadanie wywoływać uśmiech na jej twarzy, przypominać o moich uczuciach i dawać poczucie bezpieczeństwa.
